@@ -1,14 +1,27 @@
 package juegosobligatorio;
+
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 import java.util.Scanner;
+
 public class Main {
+
+    
     public static void main(String[] args) {
-        Sistema sistema=new Sistema();
+        Sistema sistema = new Sistema();
+        menu(sistema);
+
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 3 + 1);
+        System.out.println(randomNum);
+    }
+    
+    private static void menu(Sistema sistema){
         Scanner in = new Scanner(System.in);
-        int opcion=0;
-        while(opcion!=5){
-            
+        int opcion = 0;
+        while (opcion != 5) {
+
             System.out.println("MENU DE OPCIONES\n");
             System.out.println("1. Ingresar un nuevo jugador");
             System.out.println("2. Jugar a Saltar");
@@ -16,89 +29,58 @@ public class Main {
             System.out.println("4. Bitácora");
             System.out.println("5. Salir");
             System.out.println("Seleccione su opción");
-            opcion=in.nextInt();
-            switch(opcion){
+            opcion = in.nextInt();
+            switch (opcion) {
                 case 1:
-                    sistema.ingresarJugador(agregarJugadorALista(sistema));
-                break;
+                    sistema.ingresarJugador(crearJugador(sistema));
+                    break;
                 case 2:
-                    /*jugarSaltar*/;
-                break;
+                    sistema.crearJuegoSaltar();
+                    elegirJugador(sistema);
+                    sistema.jugarSaltar();
+                    break;
                 case 3:
                     /*jugarRectangulo*/;
-                break;
+                    break;
                 case 4:
                     ordenar(sistema);
-                break;
+                    break;
                 case 5:
-                break;}
+                    break;
+            }
         }
     }
     
-    private static Jugador agregarJugadorALista(Sistema sistema){
-        Scanner in =new Scanner (System.in);
-        String nombre=pedirNombre(sistema);
-        int edad=in.nextInt();
-        String alias=pedirAlias(sistema);
-        Jugador jugadorNuevo=new Jugador(nombre,edad,alias);
+    private static Jugador crearJugador(Sistema sistema) {
+        Scanner in = new Scanner(System.in);
+        String nombre = in.nextLine();
+        System.out.println("Ingrese edad");
+        int edad = in.nextInt();
+        String alias = pedirAlias(sistema);
+        Jugador jugadorNuevo = new Jugador(nombre, edad, alias);
+        sistema.addJugador(jugadorNuevo);
         return jugadorNuevo;
     }
-    private static String pedirNombre(Sistema sistema){
-    boolean ok=false;
-    Scanner in =new Scanner (System.in);
-    String nombre="S/N";
-    while(!ok){
-        
-            System.out.println("Ingrese el nombre del siguiente jugador:");
-        nombre=in.nextLine();
-        if(nombreRepetido(nombre,sistema)){
-            System.out.println("Ya existe un jugador con el nombre ingresado.");
-        }else{
-                ok=true;}
-        
+    public static String pedirAlias(Sistema sistema) {
+        boolean ok = false;
+        Scanner in = new Scanner(System.in);
+        String alias = "S/N";
+        while (!ok) {
 
-    }
-            return nombre;}
-    
-    public static String pedirAlias(Sistema sistema){
-            boolean ok=false;
-    Scanner in =new Scanner (System.in);
-    String alias="S/N";
-    while(!ok){
-        
             System.out.println("Ingrese el alias del siguiente jugador:");
-        alias=in.nextLine();
-        if(aliasRepetido(alias,sistema)){
-            System.out.println("Ya existe un jugador con el alias ingresado.");
-        }else{
-                ok=true;}       
-    }
-            return alias;
-    }
-    
-    private static boolean nombreRepetido(String Nombre,Sistema sistema){
-        Iterator<Jugador> it= sistema.getListaJugadores().iterator();
-        boolean repetido=false;
-            while(it.hasNext()){
-                if(it.next().getNombre()==Nombre){
-                    repetido=true;
-                }
+            alias = in.nextLine();
+            if (!sistema.aliasUnico(alias)) {
+                System.out.println("Ya existe un jugador con el alias ingresado.");
+            } else {
+                ok = true;
             }
-    return repetido;}
-    
+        }
+        return alias;
+    }
 
-    private static boolean aliasRepetido(String Alias,Sistema sistema){
-        Iterator<Jugador> it= sistema.getListaJugadores().iterator();
-        boolean repetido=false;
-            while(it.hasNext()){
-                if(it.next().getAlias()==Alias){
-                    repetido=true;
-                }
-            }
-    return repetido;}
     
-    private static void ordenar(Sistema sistema){
-    Scanner in = new Scanner(System.in);
+    private static void ordenar(Sistema sistema) {
+        Scanner in = new Scanner(System.in);
         int opcion = 0;
         while (opcion != 3) {
             System.out.println("\nORDENAR\n");
@@ -108,15 +90,59 @@ public class Main {
             opcion = in.nextInt();
             if (opcion == 1) {
                 sistema.ordenarPorAlias();
-                sistema.mostrarPartidas();
+                mostrarPartidas(sistema);
             } else {
                 if (opcion == 2) {
                     sistema.ordenarPorPuntaje();
-                    sistema.mostrarPartidas();
+                    mostrarPartidas(sistema);
                 }
             }
-        }}
-    
-    
+        }
     }
-
+    
+    public static void elegirJugador(Sistema sistema){
+        mostrarJugadores(sistema);
+        Scanner in = new Scanner(System.in);
+        System.out.println("Ingrese el alias del jugador que quiere elegir");
+        String alias=in.nextLine();
+        while(!sistema.existeAlias(alias)){
+            mostrarJugadores(sistema);
+            System.out.println("Ingrese un alias existente");
+            alias=in.nextLine();
+        }
+        Jugador jugador=sistema.buscarJugadorAlias(alias);
+        sistema.setearJugador(jugador);
+    }
+    
+    
+    public static void mostrarPartidas(Sistema sistema) {
+        System.out.println("\nLista de Partidas");
+        for(Partida unaPartida : sistema.getListaPartidas()) {
+            System.out.println(unaPartida);
+        }
+        System.out.println("");
+    }
+    public static void mostrarJugadores(Sistema sistema) {
+        System.out.println("\nLista de Jugadores");
+        for(Jugador jugador : sistema.getListaJugadores()) {
+            System.out.println(jugador);
+        }
+        System.out.println("");
+    }
+    
+    
+    //Esto no va aca, el main solo se vincula con el Sistema
+    public static int hacerJugadaSaltar(JuegoSaltar juego){
+        Scanner in=new Scanner(System.in);
+        System.out.println("Haz la siguiente jugada");
+        int jugada=in.nextInt();
+        while(!juego.jugadaValida()){
+            System.out.println("Ingresa una jugada valida");
+            jugada=in.nextInt();
+        }
+        
+        return jugada;
+    }
+    
+    
+}

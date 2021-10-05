@@ -12,7 +12,7 @@ class Jugador {
     }
     
     private void setNombre(String unNombre){
-                this.nombre=unNombre;
+        this.nombre=unNombre;
     }
     
     public int getEdad(){
@@ -36,9 +36,11 @@ class Jugador {
         this.setAlias(unAlias);
     }
     
+    
+    
     @Override
-public String toString() {
-return "Nombre: " + this.getNombre() + " Edad: "+
-this.getEdad() +" Alias: "+ this.getAlias();
+    public String toString() {
+        return "Nombre: " + this.getNombre() + " Edad: "+
+            this.getEdad() +" Alias: "+ this.getAlias();
     }
 }
