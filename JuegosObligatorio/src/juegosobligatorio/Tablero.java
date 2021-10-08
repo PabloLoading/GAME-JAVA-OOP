@@ -2,42 +2,36 @@
 package juegosobligatorio;
 
 public class Tablero {
-
     int filas;
+    int cols;
+    char valorDefecto;
+    String[][] matriz;
 
     public char getValorDefecto() {
         return valorDefecto;
     }
 
-    public char[][] getMatriz() {
+    public String[][] getMatriz() {
         return matriz;
     }
-    int cols;
-    char valorDefecto;
-    char[][] matriz;
+    public void setMatriz(String[][] matriz){
+        this.matriz=matriz;
+    }
 
     public Tablero(int filas, int cols, char valor) {
         this.filas = filas;
         this.cols = cols;
-        this.matriz = new char[filas][cols];
+        this.matriz = new String[filas][cols];
 
         for (int i = 0; i < this.filas; i++) {
             for (int j = 0; j < this.cols; j++) {
-                matriz[i][j] = valor;
+                matriz[i][j] = valor+"";
             }
         }
 
     }
 
-    public void mostrarTablero( 
-        Tablero this){
-            for (int i = 0; i < this.filas; i++) {
-            System.out.println("");
-            for (int j = 0; j < this.cols; j++) {
-                System.out.print(matriz[i][j]);
-            }
-        }
-    }
+   
 
     //Metodos get
     public int getFilas() {

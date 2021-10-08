@@ -13,6 +13,7 @@ public class Sistema {
     private ArrayList<Partida> listaPartidas=new ArrayList<Partida>();
     private Partida partidaActual;
 
+    
     public Sistema(){
         listaJugadores = new ArrayList<>();
         listaPartidas = new ArrayList<>();
@@ -23,36 +24,36 @@ public class Sistema {
     public ArrayList<Partida> getListaPartidas(){
         return listaPartidas;}
     
-    public void ingresarJugador(Jugador unJugador){
-        listaJugadores.add(unJugador);
-    } 
-    
     public void crearJuegoSaltar(){
         Juego juego=new JuegoSaltar();
         this.partidaActual=new Partida(juego);
     }
-    public void jugarSaltar(){
-        
+
+    public void setPartidaActual(Partida partidaActual) {
+        this.partidaActual = partidaActual;
     }
+    
     
     public void setearJugador(Jugador jugador){
         this.partidaActual.setJugador(jugador);
     }
     
-    
+    public Tablero getTableroActual(){
+        return this.partidaActual.getJuego().getTablero();
+    }
     
     public void ordenarPorPuntaje() {
         //Collections.sort(listaGastos, new CriterioMonto());
         listaPartidas.sort(new CriterioPuntaje());
     }
     
-    public void addJugador(Jugador jugador){
+    public void agregarJugador(Jugador jugador){
         this.listaJugadores.add(jugador);
     }
     public boolean existeAlias(String alias){
         boolean existe=false;
         for(Jugador jugador : this.listaJugadores){
-            if(jugador.getAlias()==alias){
+            if(jugador.getAlias().equals(alias)){
                 existe=true;
             }
         }

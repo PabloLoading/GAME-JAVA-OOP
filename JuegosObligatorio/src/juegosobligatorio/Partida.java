@@ -15,7 +15,10 @@ public class Partida {
 
         this.juego=juego;
         this.inicio=dtf.format(LocalDateTime.now());
-        
+        this.puntaje=0;
+    }
+    public Juego getJuego(){
+        return this.juego;
     }
     public int getPuntaje(){
         return this.puntaje;

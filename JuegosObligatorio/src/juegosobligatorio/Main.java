@@ -11,10 +11,10 @@ public class Main {
     
     public static void main(String[] args) {
         Sistema sistema = new Sistema();
-        menu(sistema);
-
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 3 + 1);
-        System.out.println(randomNum);
+        Juego juego= new JuegoSaltar();
+        sistema.setPartidaActual(new Partida(juego));
+        juego.tableroVacio();
+        mostrarTablero(sistema);
     }
     
     private static void menu(Sistema sistema){
@@ -32,12 +32,12 @@ public class Main {
             opcion = in.nextInt();
             switch (opcion) {
                 case 1:
-                    sistema.ingresarJugador(crearJugador(sistema));
+                    sistema.agregarJugador(crearJugador(sistema));
                     break;
                 case 2:
                     sistema.crearJuegoSaltar();
                     elegirJugador(sistema);
-                    sistema.jugarSaltar();
+                    jugarSaltar(sistema);
                     break;
                 case 3:
                     /*jugarRectangulo*/;
@@ -51,14 +51,19 @@ public class Main {
         }
     }
     
+    private static void jugarSaltar(Sistema sistema){
+        
+    }
+    
     private static Jugador crearJugador(Sistema sistema) {
         Scanner in = new Scanner(System.in);
+        System.out.println("Ingrese su nombre");
         String nombre = in.nextLine();
         System.out.println("Ingrese edad");
         int edad = in.nextInt();
         String alias = pedirAlias(sistema);
         Jugador jugadorNuevo = new Jugador(nombre, edad, alias);
-        sistema.addJugador(jugadorNuevo);
+        System.out.println("Jugador creado correctamente:"+jugadorNuevo);
         return jugadorNuevo;
     }
     public static String pedirAlias(Sistema sistema) {
@@ -97,6 +102,7 @@ public class Main {
                     mostrarPartidas(sistema);
                 }
             }
+            
         }
     }
     
@@ -144,5 +150,14 @@ public class Main {
         return jugada;
     }
     
-    
+    public static void mostrarTablero(Sistema sistema){
+        Tablero tablero=sistema.getTableroActual();
+        String mat[][]=tablero.getMatriz();
+        for (int i = mat.length-1; i>=0; i--) {
+            System.out.println("");
+            for (int j = 0; j < mat[0].length; j++) {
+                System.out.print(mat[i][j]);
+            }
+        }
+    }
 }
