@@ -4,8 +4,39 @@ package juegosobligatorio;
 public class Juego {
     private Tablero tablero;
     
-    public void tableroVacio(){
+    //Creacion de metodos que dan fichas de colores
+    public static final String fichaRoja = "\u001B[31m"+"#"+"\u001B[0m";
+    public static final String fichaAzul = "\u001B[34m"+"#"+"\u001B[0m";
+    public static final String fichaVerde = "\u001B[32m"+"#"+"\u001B[0m";
+    public static final String fichaAmarilla = "\u001B[33m"+"#"+"\u001B[0m";
+
+
+    
+    
+    public void tableroDefaultSaltar(){
         String mat[][]=this.tablero.getMatriz();
+        
+        
+        //Creacion de fichas
+        mat[2][4]=fichaAmarilla;
+        mat[2][6]=fichaVerde;
+        mat[2][8]=fichaRoja;
+        mat[2][10]=fichaAzul;
+        
+        mat[4][4]=fichaVerde;
+        mat[4][6]=fichaAmarilla;
+        mat[4][8]=fichaAzul;
+        mat[4][10]=fichaRoja;
+        
+        mat[6][4]=fichaAzul;
+        mat[6][6]=fichaRoja;
+        mat[6][8]=fichaAmarilla;
+        mat[6][10]=fichaVerde;
+        
+        mat[8][4]=fichaRoja;
+        mat[8][6]=fichaAzul;
+        mat[8][8]=fichaVerde;
+        mat[8][10]=fichaAmarilla;
         
         //espacio doble en col de los puntajes, asi printea prolijo
         for (int i = 0; i < mat.length; i++) {
@@ -36,12 +67,6 @@ public class Juego {
                         mat[i][j]="|";
                     }
                 }
-            }
-        }
-        
-        for (int i = 2; i < 9; i=i+2) {
-            for (int j = 4; j < mat[0].length;j=j+2) {
-                mat[i][j]="#";
             }
         }
         

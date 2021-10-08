@@ -13,7 +13,7 @@ public class Main {
         Sistema sistema = new Sistema();
         Juego juego= new JuegoSaltar();
         sistema.setPartidaActual(new Partida(juego));
-        juego.tableroVacio();
+        juego.tableroDefaultSaltar();
         mostrarTablero(sistema);
     }
     
