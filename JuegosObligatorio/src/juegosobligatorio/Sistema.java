@@ -78,18 +78,6 @@ public class Sistema {
         });
     }
     
-    
-    public boolean aliasUnico(String alias){
-        boolean unico=true;
-        for (int i = 0; i < this.listaJugadores.size() && unico; i++) {
-            if(this.listaJugadores.get(i).getAlias()==alias){
-                unico=false;
-            }
-        }
-        return unico;
-    }
-    
-    
     private class CriterioPuntaje implements Comparator<Partida> {
 
         @Override

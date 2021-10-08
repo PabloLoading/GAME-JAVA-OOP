@@ -74,11 +74,11 @@ public class Main {
 
             System.out.println("Ingrese el alias del siguiente jugador:");
             alias = in.nextLine();
-            if (!sistema.aliasUnico(alias)) {
+            while(sistema.existeAlias(alias)) {
                 System.out.println("Ya existe un jugador con el alias ingresado.");
-            } else {
-                ok = true;
+                alias = in.nextLine();
             }
+            ok=true;
         }
         return alias;
     }
@@ -107,6 +107,9 @@ public class Main {
     }
     
     public static void elegirJugador(Sistema sistema){
+        if(sistema.getListaJugadores().isEmpty()){
+            System.out.println("No hay jugadores ingresados. Por favor ingrese un nuevo jugador antes de empezar a jugar.");}
+        else{
         mostrarJugadores(sistema);
         Scanner in = new Scanner(System.in);
         System.out.println("Ingrese el alias del jugador que quiere elegir");
@@ -117,7 +120,7 @@ public class Main {
             alias=in.nextLine();
         }
         Jugador jugador=sistema.buscarJugadorAlias(alias);
-        sistema.setearJugador(jugador);
+        sistema.setearJugador(jugador);}
     }
     
     
