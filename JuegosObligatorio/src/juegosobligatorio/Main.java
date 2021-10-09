@@ -35,9 +35,13 @@ public class Main {
                     sistema.agregarJugador(crearJugador(sistema));
                     break;
                 case 2:
+                if (sistema.getListaJugadores().isEmpty()) {
+                    System.out.println("No hay jugadores ingresados. Por favor ingrese un nuevo jugador antes de empezar a jugar.");
+                } else {
                     sistema.crearJuegoSaltar();
                     elegirJugador(sistema);
                     jugarSaltar(sistema);
+                }
                     break;
                 case 3:
                     /*jugarRectangulo*/;
