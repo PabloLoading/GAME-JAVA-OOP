@@ -87,9 +87,9 @@ public class Juego {
                 fichasFila--;
             }
         }    
-        if(" ".equals(mat[posY+fichasFila][posX])){
+        if((posY+fichasFila*2)<=22 && " ".equals(mat[posY+fichasFila*2][posX])){
             for (int j = 4; j < mat[0].length; j=j+2) {
-                if(mat[posY][posX].equals(mat[posY+fichasFila][j])){
+                if(mat[posY][posX].equals(mat[posY+fichasFila*2][j])){
                     sePuede=false;
                 }
             } 
@@ -168,17 +168,17 @@ public class Juego {
             break;
         }
         for (int i = 0; i < mat.length; i++) {
-            if(mat[i][col]==aux){
+            if(mat[i][col].equals(aux)){
                 posY=i;
             }
         }
-        for (int j = 0; j < mat[0].length; j++) {
-            if(mat[posY][j]==" "){
+        for (int j = 4; j < mat[0].length; j=j+2) {
+            if(" ".equals(mat[posY][j])){
                 fichasFila--;
             }
         }
         
-        mat[posY+fichasFila][col]=aux;
+        mat[posY+fichasFila*2][col]=aux;
         mat[posY][col]=" ";
         
         this.tablero.setMatriz(mat);

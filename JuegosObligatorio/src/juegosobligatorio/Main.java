@@ -54,21 +54,35 @@ public class Main {
         int color = 0;
         String colores = "RAVM";
         int coloresNoValidos = 0;
-
+        
         boolean condicion = true;
         while (condicion) {
             if (color == 4) {
                 color = 0;
             }
             char letraColor = colores.charAt(color);
-
+            String colorTurno="";
+            switch(letraColor){
+                case 'R':colorTurno="Rojo";
+                break;
+                case 'A':colorTurno="Azul";
+                break;
+                case 'V':colorTurno="Verde";
+                break;
+                case 'M':colorTurno="Amarillo";
+                break;
+                
+                
+            }
             if (sistema.colorJugableSaltarS(letraColor)) {
                 coloresNoValidos = 0;
                 boolean ok = false;
                 while (!ok) {
                     mostrarTablero(sistema);
+                    
+                    
                     Scanner in = new Scanner(System.in);
-                    System.out.println("Haz una jugada");
+                    System.out.println("Haz una jugada con el color "+colorTurno);
                     int opcionJugada = in.nextInt();
                     int colJugada = 0;
                     switch (opcionJugada) {
