@@ -12,27 +12,10 @@ public class JuegoSaltar extends Juego{
         this.nombre="Saltar";
         Tablero tablero=new Tablero(24,12,' ');
         super.setTablero(tablero);
+        super.tableroDefaultSaltar();
     }
-    
-    //Funciones solo declaradas, hay que programarlas bien
-    public boolean jugadaValida(int jugada){
-        return false;
-    }
-    public boolean colorConJugadas(){
-        boolean existeJugada=false;
-        for (int i = 1; i < 5 && !existeJugada; i++) {
-            if(jugadaValida(i)){
-                existeJugada=true;
-            }
-        }
-        return existeJugada;
-    }
-    
     public int calcularPuntaje(){
         return 5;
-    }
-    public boolean jugadaValida(){
-        return false;
     }
 }
 

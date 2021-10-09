@@ -10,12 +10,9 @@ public class Juego {
     public static final String fichaVerde = "\u001B[32m"+"#"+"\u001B[0m";
     public static final String fichaAmarilla = "\u001B[33m"+"#"+"\u001B[0m";
 
-
-    
     
     public void tableroDefaultSaltar(){
         String mat[][]=this.tablero.getMatriz();
-        
         
         //Creacion de fichas
         mat[2][4]=fichaAmarilla;
@@ -69,7 +66,7 @@ public class Juego {
                 }
             }
         }
-        
+        //Setea a la matriz del tablero
         this.tablero.setMatriz(mat);
     }
     
@@ -77,9 +74,113 @@ public class Juego {
         return tablero;
     }
     
-    public void setTablero(Tablero tablero) {
+    public void setTablero(Tablero tablero) 
+    {
         this.tablero = tablero;
     }
+    public boolean jugadaValidaSaltar(int posY, int posX){
+        String mat[][]=this.tablero.getMatriz();
+        boolean sePuede=true;
+        int fichasFila=4;
+        for (int j = 4; j < mat[0].length; j=j+2) {
+            if(" ".equals(mat[posY][j])){
+                fichasFila--;
+            }
+        }    
+        if(" ".equals(mat[posY+fichasFila][posX])){
+            for (int j = 4; j < mat[0].length; j=j+2) {
+                if(mat[posY][posX].equals(mat[posY+fichasFila][j])){
+                    sePuede=false;
+                }
+            } 
+        }
+        else{
+            sePuede=false;
+        }
+        
+        return sePuede;
+    }
     
+    public boolean colJugableSaltar(char letraColor,int col){
+        boolean colJugable=false;
+        
+        String mat[][]=this.tablero.getMatriz();
+        String aux="";
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        for (int i = 0; i < mat.length; i++) {
+            if(mat[i][col].equals(aux)){
+                colJugable=jugadaValidaSaltar(i,col);
+            }
+        }
+        return colJugable;
+    }
     
+    public boolean colorJugableSaltar(char letraColor){
+        String mat[][]=this.tablero.getMatriz();
+        boolean colorJugable=false;
+        for (int j = 4; j < mat[0].length; j=j+2) {
+            if(colJugableSaltar(letraColor,j)){
+                colorJugable=true;
+            }
+        }
+        return colorJugable;
+    }
+    
+    public String ayudaSaltar(char letraColor){
+        String retorno="";
+        if(colJugableSaltar(letraColor,4)){
+            retorno+="1 ";
+        }
+        if(colJugableSaltar(letraColor,6)){
+            retorno+="2 ";
+        }
+        if(colJugableSaltar(letraColor,8)){
+            retorno+="3 ";
+        }
+        if(colJugableSaltar(letraColor,10)){
+            retorno+="4 ";
+        }
+        return retorno;
+    }
+    
+    public void hacerJugadaSaltar(char letraColor,int col){
+        String mat[][]=this.tablero.getMatriz();
+        String aux="";
+        int fichasFila=4;
+        int posY=0;
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        for (int i = 0; i < mat.length; i++) {
+            if(mat[i][col]==aux){
+                posY=i;
+            }
+        }
+        for (int j = 0; j < mat[0].length; j++) {
+            if(mat[posY][j]==" "){
+                fichasFila--;
+            }
+        }
+        
+        mat[posY+fichasFila][col]=aux;
+        mat[posY][col]=" ";
+        
+        this.tablero.setMatriz(mat);
+    }
 }

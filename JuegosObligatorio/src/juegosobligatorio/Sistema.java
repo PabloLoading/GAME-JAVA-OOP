@@ -70,6 +70,19 @@ public class Sistema {
         return jugadorHallado;
     }
     
+    public boolean colorJugableSaltarS(char letraColor){
+        return this.partidaActual.getJuego().colorJugableSaltar(letraColor);
+    }
+    public boolean colJugableSaltarS(char letraColor,int col){
+        return this.partidaActual.getJuego().colJugableSaltar(letraColor,col);
+    }
+    public String ayudaSaltarS(char letraColor){
+        return this.partidaActual.getJuego().ayudaSaltar(letraColor);
+    }
+    public void hacerJugadaSaltarS(char letraColor,int col){
+        this.partidaActual.getJuego().hacerJugadaSaltar(letraColor,col);
+    }
+    
     public void ordenarPorAlias() {
         Collections.sort(listaPartidas, new Comparator<Partida>(){
             public int compare(Partida partida1,Partida partida2){
