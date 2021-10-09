@@ -17,6 +17,13 @@ public class Partida {
         this.inicio=dtf.format(LocalDateTime.now());
         this.puntaje=0;
     }
+    
+    @Override
+    public String toString(){
+        return "Fecha de inicio: "+this.inicio+" Jugador: "+this.jugador+" Juego jugado: "
+                + this.juego.getNombre()+" Puntaje obtenido: "+this.puntaje;
+    }
+    
     public Juego getJuego(){
         return this.juego;
     }
@@ -28,5 +35,8 @@ public class Partida {
     }
     public void setJugador(Jugador jugador){
         this.jugador=jugador;
+    }
+    public Jugador getJugador(){
+        return this.jugador;
     }
 }

@@ -78,38 +78,41 @@ public class Main {
             if (sistema.colorJugableSaltarS(letraColor)) {
                 coloresNoValidos = 0;
                 boolean ok = false;
-                while (!ok) {
+                while (!ok && condicion) {
                     mostrarTablero(sistema);
                     
                     
                     Scanner in = new Scanner(System.in);
-                    System.out.println("Haz una jugada con el color "+colorTurno);
-                    int opcionJugada = in.nextInt();
+                    System.out.println("Haz una jugada con el color "+colorTurno +", apretar 'A' para ayuda o 'X' para terminar partida");
+                    String opcionJugada = in.nextLine();
                     int colJugada = 0;
                     switch (opcionJugada) {
-                        case 1:
+                        
+                        case "A":
+                            System.out.println("Jugadas validas: "+sistema.ayudaSaltarS(letraColor));
+                            break;
+                        case "X":condicion=false;
+                            break;
+                        case "1":
                             colJugada = 4;
                             break;
-                        case 2:
+                        case "2":
                             colJugada = 6;
                             break;
-                        case 3:
+                        case "3":
                             colJugada = 8;
                             break;
-                        case 4:
+                        case "4":
                             colJugada = 10;
                             break;
                     }
-                    if (sistema.colJugableSaltarS(letraColor, colJugada)) {
+                    
+                    if (colJugada!=0 && sistema.colJugableSaltarS(letraColor, colJugada)) {
                         sistema.hacerJugadaSaltarS(letraColor, colJugada);
                         ok = true;
                     } 
-                    else {
-                        System.out.println("Ingrese una jugada valida o Apretar 'A' para ayuda");
-                        String respuesta=in.nextLine();
-                        if("A".equals(respuesta)){
-                            System.out.println("Jugadas validas: "+sistema.ayudaSaltarS(letraColor));
-                        }
+                    else if(colJugada!=0){
+                        System.out.println("Jugada incorrecta");
                     }
                 }
             } 
@@ -121,9 +124,17 @@ public class Main {
                 System.out.println("PERDISTE, QUE TRISTE, DAS LASTIMA DE VOS");
                 condicion=false;
             }
+            if(sistema.ganoSaltarS()){
+                condicion=false;
+                mostrarTablero(sistema);
+                System.out.println("Felicitaciones, GANASTE!");
+                
+            }
             color++;
         }
-
+        int puntaje=sistema.calcularPuntajeSaltarS();
+        System.out.println("Su puntaje es: "+puntaje);
+        sistema.ponerPuntajeSaltarS(puntaje);
     }
 
     private static Jugador crearJugador(Sistema sistema) {
@@ -178,9 +189,6 @@ public class Main {
     }
 
     public static void elegirJugador(Sistema sistema) {
-        if (sistema.getListaJugadores().isEmpty()) {
-            System.out.println("No hay jugadores ingresados. Por favor ingrese un nuevo jugador antes de empezar a jugar.");
-        } else {
             mostrarJugadores(sistema);
             Scanner in = new Scanner(System.in);
             System.out.println("Ingrese el alias del jugador que quiere elegir");
@@ -192,7 +200,6 @@ public class Main {
             }
             Jugador jugador = sistema.buscarJugadorAlias(alias);
             sistema.setearJugador(jugador);
-        }
     }
 
     public static void mostrarPartidas(Sistema sistema) {

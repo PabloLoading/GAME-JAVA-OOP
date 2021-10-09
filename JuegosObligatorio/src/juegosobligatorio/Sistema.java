@@ -32,7 +32,9 @@ public class Sistema {
     public void setPartidaActual(Partida partidaActual) {
         this.partidaActual = partidaActual;
     }
-    
+    public Partida getPartidaActual(){
+        return this.partidaActual;
+    }
     
     public void setearJugador(Jugador jugador){
         this.partidaActual.setJugador(jugador);
@@ -68,7 +70,7 @@ public class Sistema {
     public Jugador buscarJugadorAlias(String alias){
         Jugador jugadorHallado=new Jugador("x",1,"x");
         for(Jugador jugador : this.listaJugadores){
-            if(jugador.getAlias()==alias){
+            if(jugador.getAlias().equals(alias)){
                 jugadorHallado=jugador;
             }
         }
@@ -86,6 +88,15 @@ public class Sistema {
     }
     public void hacerJugadaSaltarS(char letraColor,int col){
         this.partidaActual.getJuego().hacerJugadaSaltar(letraColor,col);
+    }
+    public boolean ganoSaltarS(){
+        return this.partidaActual.getJuego().ganoSaltar();
+    }
+    public int calcularPuntajeSaltarS(){
+        return this.partidaActual.getJuego().calcularPuntajeSaltar();
+    }
+    public void ponerPuntajeSaltarS(int puntaje){
+        this.partidaActual.setPuntaje(puntaje);
     }
     
     public void ordenarPorAlias() {
