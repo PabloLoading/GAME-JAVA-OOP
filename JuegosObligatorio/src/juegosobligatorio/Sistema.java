@@ -50,6 +50,11 @@ public class Sistema {
     public void agregarJugador(Jugador jugador){
         this.listaJugadores.add(jugador);
     }
+
+    public void agregarPartidaActual(){
+        this.listaPartidas.add(this.partidaActual);
+    }
+    
     public boolean existeAlias(String alias){
         boolean existe=false;
         for(Jugador jugador : this.listaJugadores){
@@ -90,7 +95,7 @@ public class Sistema {
             }
         });
     }
-    
+
     private class CriterioPuntaje implements Comparator<Partida> {
 
         @Override

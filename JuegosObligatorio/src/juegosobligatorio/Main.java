@@ -36,6 +36,7 @@ public class Main {
                         sistema.crearJuegoSaltar();
                         elegirJugador(sistema);
                         jugarSaltar(sistema);
+                        sistema.agregarPartidaActual();
                     }
                     break;
                 case 3:
@@ -116,6 +117,7 @@ public class Main {
                 coloresNoValidos++;
             }
             if(coloresNoValidos==4){
+                mostrarTablero(sistema);
                 System.out.println("PERDISTE, QUE TRISTE, DAS LASTIMA DE VOS");
                 condicion=false;
             }

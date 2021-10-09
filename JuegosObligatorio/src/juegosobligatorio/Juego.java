@@ -1,6 +1,8 @@
 
 package juegosobligatorio;
 
+import java.util.concurrent.ForkJoinPool;
+
 public class Juego {
     private Tablero tablero;
     
@@ -182,5 +184,23 @@ public class Juego {
         mat[posY][col]=" ";
         
         this.tablero.setMatriz(mat);
+    }
+    //Fijarse si esta bien
+    public boolean ganoSaltar(){
+       String mat [][]= this.tablero.getMatriz();
+       boolean gano=false;
+       int espaciosVacios=0;
+       for (int i =2 ; i < 9; i=i+2) {
+           for (int j = 2; j < 11; j=j+2) {
+               if(" ".equals(mat[i][j])){
+                   espaciosVacios++;
+               }
+               
+           }
+       }
+       if(espaciosVacios==14){
+           gano = true;
+       }
+        return gano;
     }
 }
