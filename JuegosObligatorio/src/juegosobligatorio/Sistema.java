@@ -111,11 +111,17 @@ public class Sistema {
     public boolean jugadaValidaRectanguloS(String respuesta[],char letraColor,boolean primeraJugada){
         return this.partidaActual.getJuego().jugadaValidaRectangulo(respuesta,letraColor,primeraJugada);
     }
+    public String mostrarErrorRectanguloS(String respuesta[],char letraColor,boolean primeraJugada){
+       return this.partidaActual.getJuego().mostrarErrorRectangulo(respuesta, letraColor, primeraJugada);
+    }
     public void hacerJugadaRectanguloS(String respuesta[],char letraColor){
         this.partidaActual.getJuego().hacerJugadaRectangulo(respuesta, letraColor);
     }
     public int calcularPuntajeRectanguloS(){
         return this.partidaActual.getJuego().calcularPuntajeRectangulo();
+    }
+    public void tableroRandomRectanguloS(){
+        this.partidaActual.getJuego().tableroRandomRectangulo();
     }
     public boolean hayJugadaRectanguloS(String respuesta[]){
         return this.partidaActual.getJuego().hayJugadaRectangulo(respuesta);

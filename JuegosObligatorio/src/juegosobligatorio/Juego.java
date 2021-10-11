@@ -380,6 +380,28 @@ public class Juego {
         
         this.tablero.setMatriz(mat);
     }
+
+    public void tableroRandomRectangulo(){
+        String mat[][]=this.tablero.getMatriz();
+        for (int i = 2; i < mat.length; i++) {
+            for (int j = 2; j < mat[0].length; j=j+2) {
+                mat[i][j]="-";
+            }
+        }
+        for (int j = 0; j < 20; j++) {
+            boolean ok = false;
+            while(!ok){
+            int filaRandom=getRandomNumber(2,22);
+            int columnaRandom=getRandomNumber(1, 21);
+            if(mat[filaRandom][columnaRandom*2].equals("-")){
+                ok=true;
+                mat[filaRandom][columnaRandom*2]="*";
+            }
+        }
+            
+        }
+        this.tablero.setMatriz(mat);
+    }
     
     public boolean jugadaValidaRectangulo(String respuesta[],char letraColor,boolean primeraJugada){
         boolean jugadaValida=true;
@@ -413,7 +435,8 @@ public class Juego {
         if(jugadaValida && !primeraJugada){
             boolean enContacto=false;
             for (int i = posY-1 ; i <posY+dy+1 && i<mat.length ; i++) {
-                for (int j = posX-1; j <=posX + dx+2 && i<mat[0].length; j++) {
+                for (int j = posX-2; j <=posX + dx+2 && j<mat[0].length; j++) {
+                    
                     if(mat[i][j].equals(aux)){
                         enContacto=true;
                     }
@@ -426,7 +449,59 @@ public class Juego {
         
         return jugadaValida;
     }
+    public String mostrarErrorRectangulo(String respuesta[],char letraColor,boolean primeraJugada){
+        String mensaje="Errores: ";
+        String mat[][]=this.tablero.getMatriz();
+        boolean tocaAsterisco=false;
+        boolean tocaRectangulo=false;
+        int posY=Integer.parseInt(respuesta[0])+1;
+        int posX=Integer.parseInt(respuesta[1])*2;
+        int dy=Integer.parseInt(respuesta[2]);
+        int dx=(Integer.parseInt(respuesta[3])-1)*2;
+        
+        
+        for (int i = posY; i<posY+dy; i++) {
+            for (int j = posX; j<=posX+dx; j=j+2) {
+                if(!"-".equals(mat[i][j])){
+                    if(mat[i][j].equals("*") && !tocaAsterisco){
+                        tocaAsterisco=true;
+                        mensaje+=" \n-El rectángulo ingresado superpone a celda no válida";
+                    }else if(!tocaRectangulo){
+                        mensaje+="\n-El rectángulo ingresado superpone a otro rectángulo";
+                        tocaRectangulo=true;
 
+                    }
+                }
+                
+            }
+        }
+        String aux="";
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        if(!primeraJugada){
+            boolean enContacto=false;
+            for (int i = posY-1 ; i <posY+dy+1 && i<mat.length ; i++) {
+                for (int j = posX-2; j <=posX + dx+2 && j<mat[0].length; j++) {
+                    
+                    if(mat[i][j].equals(aux)){
+                        enContacto=true;
+                    }
+                }
+            }
+            if(!enContacto){
+                mensaje+=" \n-El rectángulo ingresado no es adyacente al último rectángulo";
+            }
+        }
+        return mensaje;
+    }
     public void hacerJugadaRectangulo(String respuesta[],char letraColor){
         String mat[][]=this.tablero.getMatriz();
         String aux="";
@@ -476,8 +551,8 @@ public class Juego {
         int posX=Integer.parseInt(respuesta[1])*2;
         int dy=Integer.parseInt(respuesta[2]);
         int dx=(Integer.parseInt(respuesta[3])-1)*2;
-        for (int i = posY;i<mat.length && i < posY+dy+1; i++) {
-            for (int j = posX;j<mat[0].length  && j <=posX+dx+2; j++) {
+        for (int i = posY-1;i<mat.length && i < posY+dy+1; i++) {
+            for (int j = posX-2;j<mat[0].length  && j <=posX+dx+2; j++) {
                 if("-".equals(mat[i][j])){
                     hayJugada=true;
                 }

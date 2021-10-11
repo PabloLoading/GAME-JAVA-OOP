@@ -46,6 +46,7 @@ public class Main {
                     } else {
                         sistema.crearJuegoRectangulo();
                         elegirJugador(sistema);
+                        preguntarTableroRectangulo(sistema);
                         jugarRectangulo(sistema);
                         sistema.agregarPartidaActual();
                     }
@@ -154,10 +155,18 @@ public class Main {
         System.out.println("Su puntaje es: " + puntaje);
         sistema.ponerPuntaje(puntaje);
     }
-
+    private static void preguntarTableroRectangulo(Sistema sistema) {
+        System.out.println("Ingrese '0' para tablero predeterminado y '1' para tablero al azar");
+        Scanner in = new Scanner(System.in);
+        int respuesta = in.nextInt();
+        if (respuesta == 1) {
+            sistema.tableroRandomRectanguloS();
+        }
+    }
     private static void jugarRectangulo(Sistema sistema) {
         int color = 0;
         String colores = "RAVM";
+        boolean salir=false;
         boolean condicion = true;
         int contadorJugadas = 0;
         boolean primeraJugada = true;
@@ -183,8 +192,11 @@ public class Main {
             while (!ok && condicion) {
 
                 mostrarTableroRectangulo(sistema);
-                System.out.println("Haz una jugada");
-                String respuesta = in.nextLine();
+                System.out.println("Haz una jugada, o aprieta 'X' para finalizar la partida");
+                String respuesta = in.nextLine().toUpperCase();
+                if(respuesta.equals("X")){
+                    condicion=false;
+                }else{
                 String arrayRespuesta[] = respuesta.split(" ");
                 if (sistema.jugadaValidaRectanguloS(arrayRespuesta, letraAnterior, primeraJugada)) {
                     sistema.hacerJugadaRectanguloS(arrayRespuesta, letraColor);
@@ -192,9 +204,11 @@ public class Main {
                     respuestaAux=arrayRespuesta;
                 } else {
                     System.out.println("Jugada incorrecta");
+                    System.out.println(sistema.mostrarErrorRectanguloS(arrayRespuesta, letraColor, primeraJugada));
                 }
             }
-            
+            }
+            if(condicion){
             if(!sistema.hayJugadaRectanguloS(respuestaAux)){
                 condicion=false;
                 mostrarTableroRectangulo(sistema);
@@ -208,6 +222,7 @@ public class Main {
                 mostrarTableroRectangulo(sistema);
                 System.out.println("Felicitaciones, GANASTE!");
             }
+        }
         }
         int puntaje = sistema.calcularPuntajeRectanguloS();
         System.out.println("Su puntaje es: " + puntaje);
