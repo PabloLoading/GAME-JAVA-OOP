@@ -71,15 +71,7 @@ public class Sistema {
         return existe;
     }
     
-    public Jugador buscarJugadorAlias(String alias){
-        Jugador jugadorHallado=new Jugador("x",1,"x");
-        for(Jugador jugador : this.listaJugadores){
-            if(jugador.getAlias().equals(alias)){
-                jugadorHallado=jugador;
-            }
-        }
-        return jugadorHallado;
-    }
+    
     public void ponerPuntaje(int puntaje){
         this.partidaActual.setPuntaje(puntaje);
     }

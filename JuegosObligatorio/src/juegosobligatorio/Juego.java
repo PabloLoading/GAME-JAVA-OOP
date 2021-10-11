@@ -15,6 +15,7 @@ public class Juego {
     public static final String fichaAmarilla = "\u001B[33m"+"#"+"\u001B[0m";
     
     
+    //Metodos set y get
     
     public Tablero getTablero() {
         return tablero;
@@ -30,10 +31,26 @@ public class Juego {
     public void setNombre(String nombre){
         this.nombre=nombre;
     }
-    
+    //Metodos utiles
     public int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
+    
+    public String getFicha(char letraColor){
+        String aux="";
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        return aux;
+    }
+    
     
     //Metodos Saltar
     
@@ -219,17 +236,7 @@ public class Juego {
         boolean colJugable=false;
         
         String mat[][]=this.tablero.getMatriz();
-        String aux="";
-        switch(letraColor){
-            case'R':aux=fichaRoja;
-            break;
-            case 'A':aux=fichaAzul;
-            break;
-            case 'V':aux=fichaVerde;
-            break;
-            case 'M':aux=fichaAmarilla;
-            break;
-        }
+        String aux=getFicha(letraColor);
         for (int i = 0; i < mat.length; i++) {
             if(mat[i][col].equals(aux)){
                 colJugable=jugadaValidaSaltar(i,col);
@@ -271,7 +278,7 @@ public class Juego {
             seVa=true;
         }
         if(!seVa && !" ".equals(mat[posY+fichasFila*2][col])){
-            mensaje+=" \n-Destino ocpuado";
+            mensaje+=" \n-Destino ocupado";
         }
         
         boolean fichasIgualesEnFila=false;
@@ -332,19 +339,10 @@ public class Juego {
     
     public void hacerJugadaSaltar(char letraColor,int col){
         String mat[][]=this.tablero.getMatriz();
-        String aux="";
+        String aux=getFicha(letraColor);
         int fichasFila=4;
         int posY=0;
-        switch(letraColor){
-            case'R':aux=fichaRoja;
-            break;
-            case 'A':aux=fichaAzul;
-            break;
-            case 'V':aux=fichaVerde;
-            break;
-            case 'M':aux=fichaAmarilla;
-            break;
-        }
+        
         for (int i = 0; i < mat.length; i++) {
             if(mat[i][col].equals(aux)){
                 posY=i;
@@ -487,17 +485,7 @@ public class Juego {
                 
             }
         }
-        String aux="";
-        switch(letraColor){
-            case'R':aux=fichaRoja;
-            break;
-            case 'A':aux=fichaAzul;
-            break;
-            case 'V':aux=fichaVerde;
-            break;
-            case 'M':aux=fichaAmarilla;
-            break;
-        }
+        String aux=getFicha(letraColor);
         if(jugadaValida && !primeraJugada){
             boolean enContacto=false;
             for (int i = posY-1 ; i <posY+dy+1 && i<mat.length ; i++) {
@@ -542,17 +530,7 @@ public class Juego {
                 
             }
         }
-        String aux="";
-        switch(letraColor){
-            case'R':aux=fichaRoja;
-            break;
-            case 'A':aux=fichaAzul;
-            break;
-            case 'V':aux=fichaVerde;
-            break;
-            case 'M':aux=fichaAmarilla;
-            break;
-        }
+        String aux=getFicha(letraColor);
         if(!primeraJugada){
             boolean enContacto=false;
             for (int i = posY-1 ; i <posY+dy+1 && i<mat.length ; i++) {
@@ -572,17 +550,7 @@ public class Juego {
     
     public void hacerJugadaRectangulo(String respuesta[],char letraColor){
         String mat[][]=this.tablero.getMatriz();
-        String aux="";
-        switch(letraColor){
-            case'R':aux=fichaRoja;
-            break;
-            case 'A':aux=fichaAzul;
-            break;
-            case 'V':aux=fichaVerde;
-            break;
-            case 'M':aux=fichaAmarilla;
-            break;
-        }
+        String aux=getFicha(letraColor);
         
         int posY=Integer.parseInt(respuesta[0])+1;
         int posX=Integer.parseInt(respuesta[1])*2;
