@@ -9,6 +9,9 @@ public class Main {
 
     public static void main(String[] args) {
         Sistema sistema = new Sistema();
+        //Jugador de prueba
+        Jugador jugador=new Jugador("Jorge diaz",69,"El jorge");
+        sistema.agregarJugador(jugador);
         menu(sistema);
     }
 
@@ -18,12 +21,12 @@ public class Main {
         while (opcion != 5) {
 
             System.out.println("MENU DE OPCIONES\n");
-            System.out.println("1. Ingresar un nuevo jugador");
-            System.out.println("2. Jugar a Saltar");
-            System.out.println("3. Jugar a Rectángulo");
-            System.out.println("4. Bitácora");
-            System.out.println("5. Salir");
-            System.out.println("Seleccione su opción");
+            System.out.println("1) Ingresar un nuevo jugador");
+            System.out.println("2) Jugar a Saltar");
+            System.out.println("3) Jugar a Rectángulo");
+            System.out.println("4) Bitácora");
+            System.out.println("5) Salir");
+            System.out.println("Seleccione su opción:");
             opcion = in.nextInt();
             switch (opcion) {
                 case 1:
@@ -54,7 +57,7 @@ public class Main {
                 case 4:
                     ordenar(sistema);
                     break;
-                case 5:
+                default:
                     break;
             }
         }
@@ -133,14 +136,16 @@ public class Main {
                         ok = true;
                     } else if (colJugada != 0) {
                         System.out.println("Jugada incorrecta");
+                        System.out.println(sistema.mostrarErrorSaltarS(letraColor,colJugada));;
                     }
                 }
             } else {
                 coloresNoValidos++;
+                System.out.println("No hay jugadas con el color: "+colorTurno);
             }
             if (coloresNoValidos == 4) {
                 mostrarTablero(sistema);
-                System.out.println("PERDISTE, QUE TRISTE, DAS LASTIMA DE VOS");
+                System.out.println("Perdiste");
                 condicion = false;
             }
             if (sistema.ganoSaltarS()) {
@@ -155,6 +160,7 @@ public class Main {
         System.out.println("Su puntaje es: " + puntaje);
         sistema.ponerPuntaje(puntaje);
     }
+    
     private static void preguntarTableroRectangulo(Sistema sistema) {
         System.out.println("Ingrese '0' para tablero predeterminado y '1' para tablero al azar");
         Scanner in = new Scanner(System.in);
@@ -163,6 +169,7 @@ public class Main {
             sistema.tableroRandomRectanguloS();
         }
     }
+    
     private static void jugarRectangulo(Sistema sistema) {
         int color = 0;
         String colores = "RAVM";
@@ -284,14 +291,14 @@ public class Main {
     public static void elegirJugador(Sistema sistema) {
         mostrarJugadores(sistema);
         Scanner in = new Scanner(System.in);
-        System.out.println("Ingrese el alias del jugador que quiere elegir");
-        String alias = in.nextLine();
-        while (!sistema.existeAlias(alias)) {
+        System.out.println("Ingrese el numero de jugador");
+        int respuesta=in.nextInt();
+        while (respuesta>sistema.getListaJugadores().size() && respuesta>=0) {
             mostrarJugadores(sistema);
-            System.out.println("Ingrese un alias existente");
-            alias = in.nextLine();
+            System.out.println("Ingrese un numero de jugador valido");
+            respuesta = in.nextInt();
         }
-        Jugador jugador = sistema.buscarJugadorAlias(alias);
+        Jugador jugador = sistema.getListaJugadores().get(respuesta-1);
         sistema.setearJugador(jugador);
     }
 
@@ -305,8 +312,8 @@ public class Main {
 
     public static void mostrarJugadores(Sistema sistema) {
         System.out.println("\nLista de Jugadores");
-        for (Jugador jugador : sistema.getListaJugadores()) {
-            System.out.println(jugador);
+        for (int i = 0; i < sistema.getListaJugadores().size(); i++) {
+            System.out.println((i+1)+") "+sistema.getListaJugadores().get(i));
         }
         System.out.println("");
     }

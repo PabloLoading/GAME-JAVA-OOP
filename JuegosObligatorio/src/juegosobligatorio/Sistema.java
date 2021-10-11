@@ -103,6 +103,10 @@ public class Sistema {
     public int calcularPuntajeSaltarS(){
         return this.partidaActual.getJuego().calcularPuntajeSaltar();
     }
+    public String mostrarErrorSaltarS(char letraColor, int col){
+        return this.partidaActual.getJuego().mostrarErrorSaltar(letraColor,col);
+    }
+    
     public void tableroRandomSaltarS(){
         this.partidaActual.getJuego().tableroRandomSaltar();
     }

@@ -187,11 +187,13 @@ public class Juego {
             }
         }    
         if((posY+fichasFila*2)<=22 && " ".equals(mat[posY+fichasFila*2][posX])){
-            for (int j = 4; j < mat[0].length; j=j+2) {
-                if(mat[posY][posX].equals(mat[posY+fichasFila*2][j])){
-                    sePuede=false;
+            if(posY<9){
+                for (int j = 4; j < mat[0].length; j=j+2) {
+                    if(mat[posY][posX].equals(mat[posY+fichasFila*2][j])){
+                        sePuede=false;
+                    }
                 }
-            } 
+            }
         }
         else{
             sePuede=false;
@@ -234,6 +236,70 @@ public class Juego {
             }
         }
         return colJugable;
+    }
+    
+    public String mostrarErrorSaltar(char letraColor, int col){
+        String mensaje="Errores: ";
+        String mat[][]=this.tablero.getMatriz();
+        String aux="";
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        int posY=0;
+        for (int i = 0; i < mat.length; i++) {
+            if(mat[i][col].equals(aux)){
+                posY=i;
+            }
+        }
+        
+        int fichasFila=4;
+        for (int j = 4; j < mat[0].length; j=j+2) {
+            if(" ".equals(mat[posY][j])){
+                fichasFila--;
+            }
+        }    
+        boolean seVa=false;
+        if((posY+fichasFila*2)>22){
+            mensaje+=" \n-Destino fuera del tablero";
+            seVa=true;
+        }
+        if(!seVa && !" ".equals(mat[posY+fichasFila*2][col])){
+            mensaje+=" \n-Destino ocpuado";
+        }
+        
+        boolean fichasIgualesEnFila=false;
+        if (posY < 9) {
+            for (int j = 4; j < mat[0].length; j = j + 2) {
+                if (mat[posY][col].equals(mat[posY + fichasFila * 2][j])) {
+                    fichasIgualesEnFila=true;
+                }
+            }
+        }
+        if(fichasIgualesEnFila){
+            mensaje+=" \n-2 fichas en misma fila en área base";
+        }
+        
+        if(fichasFila==1){
+            boolean todosEspacios=true;
+            for (int i = posY+2; i < mat.length; i=i+2) {
+                for (int j = 4; j < mat[0].length; j=j+2) {
+                    if(!" ".equals(mat[i][j])){
+                        todosEspacios=false;
+                    }
+                }
+            }
+            if(todosEspacios){
+                mensaje+=" \n-Ficha más adelantada se mueve una posición";
+            }
+        }
+        return mensaje;
     }
     
     public boolean colorJugableSaltar(char letraColor){
@@ -449,6 +515,7 @@ public class Juego {
         
         return jugadaValida;
     }
+ 
     public String mostrarErrorRectangulo(String respuesta[],char letraColor,boolean primeraJugada){
         String mensaje="Errores: ";
         String mat[][]=this.tablero.getMatriz();
@@ -502,6 +569,7 @@ public class Juego {
         }
         return mensaje;
     }
+    
     public void hacerJugadaRectangulo(String respuesta[],char letraColor){
         String mat[][]=this.tablero.getMatriz();
         String aux="";
