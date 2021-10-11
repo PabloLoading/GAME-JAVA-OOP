@@ -13,9 +13,31 @@ public class Juego {
     public static final String fichaAzul = "\u001B[34m"+"#"+"\u001B[0m";
     public static final String fichaVerde = "\u001B[32m"+"#"+"\u001B[0m";
     public static final String fichaAmarilla = "\u001B[33m"+"#"+"\u001B[0m";
-
     
-    public void tableroDefaultSaltar(){
+    
+    
+    public Tablero getTablero() {
+        return tablero;
+    }
+    
+    public void setTablero(Tablero tablero) 
+    {
+        this.tablero = tablero;
+    }
+    public String getNombre(){
+        return this.nombre;
+    }
+    public void setNombre(String nombre){
+        this.nombre=nombre;
+    }
+    
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+    
+    //Metodos Saltar
+    
+     public void tableroDefaultSaltar(){
         String mat[][]=this.tablero.getMatriz();
         
         //Creacion de fichas
@@ -77,27 +99,68 @@ public class Juego {
     public void tableroRandomSaltar(){
         String mat[][]=this.tablero.getMatriz();
         
-        Random rn = new Random();
-        int n = maximum - minimum + 1;
-        int i = rn.nextInt() % n;
-        randomNum =  minimum + i;
+        int ordenFilas[]=new int[4];
         
+        for (int j = 0; j < 4; j++) {
+            boolean condicion=true;
+            while(condicion){
+                
+                int randomNum = this.getRandomNumber(1,5);
+                
+                boolean estaNum=false;
+                for (int k = 0; k < ordenFilas.length; k++) {
+                    if(ordenFilas[k]==randomNum*2){
+                        estaNum=true;
+                    }
+                }
+                if(!estaNum){
+                    condicion=false;
+                    ordenFilas[j]=randomNum*2;
+                }
+            }
+        }
+        int ordenCols[]=new int[4];
+        
+        for (int j = 0; j < 4; j++) {
+            boolean condicion=true;
+            while(condicion){
+                
+                int randomNum = this.getRandomNumber(2,6);
+                
+                boolean estaNum=false;
+                for (int k = 0; k < ordenCols.length; k++) {
+                    if(ordenCols[k]==randomNum*2){
+                        estaNum=true;
+                    }
+                }
+                if(!estaNum){
+                    condicion=false;
+                    ordenCols[j]=randomNum*2;
+                }
+            }
+        }
+        //Creacion de fichas
+        mat[ordenFilas[0]][ordenCols[0]]=fichaAmarilla;
+        mat[ordenFilas[0]][ordenCols[1]]=fichaVerde;
+        mat[ordenFilas[0]][ordenCols[2]]=fichaRoja;
+        mat[ordenFilas[0]][ordenCols[3]]=fichaAzul;
+        
+        mat[ordenFilas[1]][ordenCols[0]]=fichaVerde;
+        mat[ordenFilas[1]][ordenCols[1]]=fichaAmarilla;
+        mat[ordenFilas[1]][ordenCols[2]]=fichaAzul;
+        mat[ordenFilas[1]][ordenCols[3]]=fichaRoja;
+        
+        mat[ordenFilas[2]][ordenCols[0]]=fichaAzul;
+        mat[ordenFilas[2]][ordenCols[1]]=fichaRoja;
+        mat[ordenFilas[2]][ordenCols[2]]=fichaAmarilla;
+        mat[ordenFilas[2]][ordenCols[3]]=fichaVerde;
+        
+        mat[ordenFilas[3]][ordenCols[0]]=fichaRoja;
+        mat[ordenFilas[3]][ordenCols[1]]=fichaAzul;
+        mat[ordenFilas[3]][ordenCols[2]]=fichaVerde;
+        mat[ordenFilas[3]][ordenCols[3]]=fichaAmarilla;
         
         this.tablero.setMatriz(mat);
-    }
-    
-    public Tablero getTablero() {
-        return tablero;
-    }
-    public void setNombre(String nombre){
-        this.nombre=nombre;
-    }
-    public void setTablero(Tablero tablero) 
-    {
-        this.tablero = tablero;
-    }
-    public String getNombre(){
-        return this.nombre;
     }
     
     public int calcularPuntajeSaltar(){
@@ -232,7 +295,7 @@ public class Juego {
         
         this.tablero.setMatriz(mat);
     }
-    //Fijarse si esta bien
+    
     public boolean ganoSaltar(){
        String mat [][]= this.tablero.getMatriz();
        boolean gano=false;
@@ -250,4 +313,177 @@ public class Juego {
        }
         return gano;
     }
+    
+    //Metodos Rectangulo
+    
+    public void tableroDefaultRectangulo(){
+        String mat[][]=this.tablero.getMatriz();
+        
+        //Pone '-' en el tablero
+        for (int i = 2; i < mat.length; i++) {
+            for (int j = 2; j < mat[0].length; j=j+2) {
+                mat[i][j]="-";
+            }
+        }
+        
+        mat[0][0]="  ";
+        mat[1][0]="  ";
+        
+        //Pone valores de la izq
+        for (int i = 2; i < mat.length; i++) {
+            String num=(i-1)+"";
+            if(i-1<10){
+                num="0"+num;
+            }
+            mat[i][0]=num;
+        }
+        //Nums de arriba
+        
+        int suma=0;
+        for (int j = 2; j < 20; j=j+2) {
+            suma++;
+            mat[0][j]=suma+"";
+            
+        }
+        suma=0;
+        for (int j = 20; j <40; j=j+2) {
+            mat[1][j]=suma+"";
+            suma++;
+        }
+        for (int j = 20; j < 40; j=j+2) {
+            mat[0][j]=1+"";
+        }
+        mat[0][40]="2";
+        mat[1][40]="0";
+        
+        //Poner '*' en el tablero
+        mat[2][6]="*";
+        mat[4][6]="*";
+        mat[5][10]="*";
+        mat[7][32]="*";
+        mat[10][20]="*";
+        mat[10][22]="*";
+        mat[13][20]="*";
+        mat[13][40]="*";
+        mat[14][36]="*";
+        mat[15][34]="*";
+        mat[16][12]="*";
+        mat[16][22]="*";
+        mat[16][40]="*";
+        mat[17][34]="*";
+        mat[18][10]="*";
+        mat[19][8]="*";
+        mat[19][22]="*";
+        mat[20][6]="*";
+        mat[20][28]="*";
+        mat[21][30]="*";
+        
+        this.tablero.setMatriz(mat);
+    }
+    
+    public boolean jugadaValidaRectangulo(String respuesta[],char letraColor,boolean primeraJugada){
+        boolean jugadaValida=true;
+        String mat[][]=this.tablero.getMatriz();
+        
+        int posY=Integer.parseInt(respuesta[0])+1;
+        int posX=Integer.parseInt(respuesta[1])*2;
+        int dy=Integer.parseInt(respuesta[2]);
+        int dx=(Integer.parseInt(respuesta[3])-1)*2;
+        
+        
+        for (int i = posY; i<posY+dy; i++) {
+            for (int j = posX; j<=posX+dx; j=j+2) {
+                if(!"-".equals(mat[i][j])){
+                    jugadaValida=false;
+                }
+                
+            }
+        }
+        String aux="";
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        if(jugadaValida && !primeraJugada){
+            boolean enContacto=false;
+            for (int i = posY-1 ; i <posY+dy+1 && i<mat.length ; i++) {
+                for (int j = posX-1; j <=posX + dx+2 && i<mat[0].length; j++) {
+                    if(mat[i][j].equals(aux)){
+                        enContacto=true;
+                    }
+                }
+            }
+            if(!enContacto){
+                jugadaValida=false;
+            }
+        }
+        
+        return jugadaValida;
+    }
+
+    public void hacerJugadaRectangulo(String respuesta[],char letraColor){
+        String mat[][]=this.tablero.getMatriz();
+        String aux="";
+        switch(letraColor){
+            case'R':aux=fichaRoja;
+            break;
+            case 'A':aux=fichaAzul;
+            break;
+            case 'V':aux=fichaVerde;
+            break;
+            case 'M':aux=fichaAmarilla;
+            break;
+        }
+        
+        int posY=Integer.parseInt(respuesta[0])+1;
+        int posX=Integer.parseInt(respuesta[1])*2;
+        int dy=Integer.parseInt(respuesta[2]);
+        int dx=(Integer.parseInt(respuesta[3])-1)*2;
+        
+        
+        for (int i = posY; i <posY+dy; i++) {
+            for (int j = posX; j <=posX+dx; j=j+2) {
+                mat[i][j]=aux;
+            }
+        }
+        this.tablero.setMatriz(mat);
+    }
+    
+    public int calcularPuntajeRectangulo(){
+        String mat[][]=this.tablero.getMatriz();
+        int puntaje=0;
+        for (int i = 2; i < mat.length; i++) {
+            for (int j = 2; j < mat[0].length; j=j+2) {
+                if(mat[i][j].equals(fichaRoja) || mat[i][j].equals(fichaAzul) ||
+                        mat[i][j].equals(fichaVerde)|| mat[i][j].equals(fichaAmarilla) ){
+                    puntaje++;
+                }
+            }
+        }
+        return puntaje;
+    }
+    
+    public boolean hayJugadaRectangulo(String respuesta[]){
+        String mat[][]=this.tablero.getMatriz();
+        boolean hayJugada=false;
+        int posY=Integer.parseInt(respuesta[0])+1;
+        int posX=Integer.parseInt(respuesta[1])*2;
+        int dy=Integer.parseInt(respuesta[2]);
+        int dx=(Integer.parseInt(respuesta[3])-1)*2;
+        for (int i = posY;i<mat.length && i < posY+dy+1; i++) {
+            for (int j = posX;j<mat[0].length  && j <=posX+dx+2; j++) {
+                if("-".equals(mat[i][j])){
+                    hayJugada=true;
+                }
+            }
+        }
+        return hayJugada;
+    }
 }
+

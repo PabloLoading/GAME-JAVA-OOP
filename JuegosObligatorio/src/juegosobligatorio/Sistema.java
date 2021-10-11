@@ -28,6 +28,10 @@ public class Sistema {
         Juego juego=new JuegoSaltar();
         this.partidaActual=new Partida(juego);
     }
+    public void crearJuegoRectangulo(){
+        Juego juego=new JuegoRectangulo();
+        this.partidaActual=new Partida(juego);
+    }
 
     public void setPartidaActual(Partida partidaActual) {
         this.partidaActual = partidaActual;
@@ -76,6 +80,10 @@ public class Sistema {
         }
         return jugadorHallado;
     }
+    public void ponerPuntaje(int puntaje){
+        this.partidaActual.setPuntaje(puntaje);
+    }
+    
     
     public boolean colorJugableSaltarS(char letraColor){
         return this.partidaActual.getJuego().colorJugableSaltar(letraColor);
@@ -95,9 +103,24 @@ public class Sistema {
     public int calcularPuntajeSaltarS(){
         return this.partidaActual.getJuego().calcularPuntajeSaltar();
     }
-    public void ponerPuntajeSaltarS(int puntaje){
-        this.partidaActual.setPuntaje(puntaje);
+    public void tableroRandomSaltarS(){
+        this.partidaActual.getJuego().tableroRandomSaltar();
     }
+    
+    
+    public boolean jugadaValidaRectanguloS(String respuesta[],char letraColor,boolean primeraJugada){
+        return this.partidaActual.getJuego().jugadaValidaRectangulo(respuesta,letraColor,primeraJugada);
+    }
+    public void hacerJugadaRectanguloS(String respuesta[],char letraColor){
+        this.partidaActual.getJuego().hacerJugadaRectangulo(respuesta, letraColor);
+    }
+    public int calcularPuntajeRectanguloS(){
+        return this.partidaActual.getJuego().calcularPuntajeRectangulo();
+    }
+    public boolean hayJugadaRectanguloS(String respuesta[]){
+        return this.partidaActual.getJuego().hayJugadaRectangulo(respuesta);
+    }
+    
     
     public void ordenarPorAlias() {
         Collections.sort(listaPartidas, new Comparator<Partida>(){
@@ -114,7 +137,5 @@ public class Sistema {
             return partida2.getPuntaje() - partida1.getPuntaje();
         }
     }
-    
-    
     
 }

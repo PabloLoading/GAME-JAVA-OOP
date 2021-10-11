@@ -12,9 +12,6 @@ public class JuegoSaltar extends Juego{
         super.setTablero(tablero);
         super.tableroDefaultSaltar();
     }
-    public int calcularPuntaje(){
-        return 5;
-    }
     
 }
 
