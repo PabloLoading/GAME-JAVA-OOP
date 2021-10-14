@@ -198,13 +198,16 @@ public class Juego {
         String mat[][]=this.tablero.getMatriz();
         boolean sePuede=true;
         int fichasFila=4;
+        //cuenta fichas en fila
         for (int j = 4; j < mat[0].length; j=j+2) {
             if(" ".equals(mat[posY][j])){
                 fichasFila--;
             }
-        }    
+        }
+        //Pregunta si no se va del tablero, y si la pos a moverse esta vacia
         if((posY+fichasFila*2)<=22 && " ".equals(mat[posY+fichasFila*2][posX])){
-            if(posY<9){
+            //Pregunta si hay fichas repetidas en fila en area base
+            if(posY<13){
                 for (int j = 4; j < mat[0].length; j=j+2) {
                     if(mat[posY][posX].equals(mat[posY+fichasFila*2][j])){
                         sePuede=false;
@@ -216,7 +219,6 @@ public class Juego {
             sePuede=false;
         }
         if(fichasFila==1 && sePuede){
-
             boolean todosEspacios=true;
             for (int i = posY+2; i < mat.length; i=i+2) {
                 for (int j = 4; j < mat[0].length; j=j+2) {
@@ -364,7 +366,7 @@ public class Juego {
        String mat [][]= this.tablero.getMatriz();
        boolean gano=false;
        int espaciosVacios=0;
-       for (int i =2 ; i < 9; i=i+2) {
+       for (int i =2 ; i < 13; i=i+2) {
            for (int j = 4; j < 11; j=j+2) {
                if(" ".equals(mat[i][j])){
                    espaciosVacios++;
@@ -372,7 +374,7 @@ public class Juego {
                
            }
        }
-       if(espaciosVacios==14){
+       if(espaciosVacios==22){
            gano = true;
        }
         return gano;
