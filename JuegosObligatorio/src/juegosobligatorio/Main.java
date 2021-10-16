@@ -1,3 +1,5 @@
+//Pablo Duran (270956) Santiago Villar (256345) 
+
 package juegosobligatorio;
 
 import java.util.*;
@@ -10,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Sistema sistema = new Sistema();
         //Jugador de prueba
-        Jugador jugador=new Jugador("Jorge diaz",69,"El jorge");
+        Jugador jugador = new Jugador("Jorge diaz", 69, "El jorge");
         sistema.agregarJugador(jugador);
         menu(sistema);
     }
@@ -27,7 +29,7 @@ public class Main {
             System.out.println("4) Bitácora");
             System.out.println("5) Salir");
             System.out.println("Seleccione su opción:");
-            opcion = in.nextInt();
+            opcion = pedirNum(1,5);
             switch (opcion) {
                 case 1:
                     sistema.agregarJugador(crearJugador(sistema));
@@ -65,8 +67,7 @@ public class Main {
 
     private static void preguntarTableroSaltar(Sistema sistema) {
         System.out.println("Ingrese '0' para tablero predeterminado y '1' para tablero al azar");
-        Scanner in = new Scanner(System.in);
-        int respuesta = in.nextInt();
+        int respuesta = pedirNum(0,1);
         if (respuesta == 1) {
             sistema.tableroRandomSaltarS();
         }
@@ -107,7 +108,7 @@ public class Main {
 
                     Scanner in = new Scanner(System.in);
                     System.out.println("Haz una jugada con el color " + colorTurno + ", apretar 'A' para ayuda o 'X' para terminar partida");
-                    String opcionJugada = in.nextLine().toUpperCase();
+                    String opcionJugada = pedirString("1234AX");
                     int colJugada = 0;
                     switch (opcionJugada) {
 
@@ -136,12 +137,12 @@ public class Main {
                         ok = true;
                     } else if (colJugada != 0) {
                         System.out.println("Jugada incorrecta");
-                        System.out.println(sistema.mostrarErrorSaltarS(letraColor,colJugada));;
+                        System.out.println(sistema.mostrarErrorSaltarS(letraColor, colJugada));;
                     }
                 }
             } else {
                 coloresNoValidos++;
-                System.out.println("No hay jugadas con el color: "+colorTurno);
+                System.out.println("No hay jugadas con el color: " + colorTurno);
             }
             if (coloresNoValidos == 4) {
                 mostrarTablero(sistema);
@@ -160,20 +161,19 @@ public class Main {
         System.out.println("Su puntaje es: " + puntaje);
         sistema.ponerPuntaje(puntaje);
     }
-    
+
     private static void preguntarTableroRectangulo(Sistema sistema) {
         System.out.println("Ingrese '0' para tablero predeterminado y '1' para tablero al azar");
-        Scanner in = new Scanner(System.in);
-        int respuesta = in.nextInt();
+        int respuesta = pedirNum(0,1);
         if (respuesta == 1) {
             sistema.tableroRandomRectanguloS();
         }
     }
-    
+
     private static void jugarRectangulo(Sistema sistema) {
         int color = 0;
         String colores = "RAVM";
-        boolean salir=false;
+        boolean salir = false;
         boolean condicion = true;
         int contadorJugadas = 0;
         boolean primeraJugada = true;
@@ -195,41 +195,41 @@ public class Main {
             letraColor = colores.charAt(color);
             boolean ok = false;
             Scanner in = new Scanner(System.in);
-            String respuestaAux[]=new String[4];
+            String respuestaAux[] = new String[4];
             while (!ok && condicion) {
 
                 mostrarTableroRectangulo(sistema);
                 System.out.println("Haz una jugada, o aprieta 'X' para finalizar la partida");
-                String respuesta = in.nextLine().toUpperCase();
-                if(respuesta.equals("X")){
-                    condicion=false;
-                }else{
-                String arrayRespuesta[] = respuesta.split(" ");
-                if (sistema.jugadaValidaRectanguloS(arrayRespuesta, letraAnterior, primeraJugada)) {
-                    sistema.hacerJugadaRectanguloS(arrayRespuesta, letraColor);
-                    ok = true;
-                    respuestaAux=arrayRespuesta;
+                String respuesta = pedirRectangulo().toUpperCase();
+                if (respuesta.equals("X")) {
+                    condicion = false;
                 } else {
-                    System.out.println("Jugada incorrecta");
-                    System.out.println(sistema.mostrarErrorRectanguloS(arrayRespuesta, letraColor, primeraJugada));
+                    String arrayRespuesta[] = respuesta.split(" ");
+                    if (sistema.jugadaValidaRectanguloS(arrayRespuesta, letraAnterior, primeraJugada)) {
+                        sistema.hacerJugadaRectanguloS(arrayRespuesta, letraColor);
+                        ok = true;
+                        respuestaAux = arrayRespuesta;
+                    } else {
+                        System.out.println("Jugada incorrecta");
+                        System.out.println(sistema.mostrarErrorRectanguloS(arrayRespuesta, letraColor, primeraJugada));
+                    }
                 }
             }
+            if (condicion) {
+                if (!sistema.hayJugadaRectanguloS(respuestaAux)) {
+                    condicion = false;
+                    mostrarTableroRectangulo(sistema);
+                    System.out.println("Perdiste");
+                }
+
+                color++;
+                contadorJugadas++;
+                if (contadorJugadas == 10) {
+                    condicion = false;
+                    mostrarTableroRectangulo(sistema);
+                    System.out.println("Felicitaciones, GANASTE!");
+                }
             }
-            if(condicion){
-            if(!sistema.hayJugadaRectanguloS(respuestaAux)){
-                condicion=false;
-                mostrarTableroRectangulo(sistema);
-                System.out.println("Perdiste");
-            }
-            
-            color++;
-            contadorJugadas++;
-            if(contadorJugadas==10){
-                condicion=false;
-                mostrarTableroRectangulo(sistema);
-                System.out.println("Felicitaciones, GANASTE!");
-            }
-        }
         }
         int puntaje = sistema.calcularPuntajeRectanguloS();
         System.out.println("Su puntaje es: " + puntaje);
@@ -267,38 +267,38 @@ public class Main {
     }
 
     private static void ordenar(Sistema sistema) {
-        Scanner in = new Scanner(System.in);
-        int opcion = 0;
-        while (opcion != 3) {
-            System.out.println("\nORDENAR\n");
-            System.out.println("1. Por alias creciente ");
-            System.out.println("2. Por puntaje decreciente");
-            System.out.println("3. Salir");
-            opcion = in.nextInt();
-            if (opcion == 1) {
-                sistema.ordenarPorAlias();
-                mostrarPartidas(sistema);
-            } else {
-                if (opcion == 2) {
-                    sistema.ordenarPorPuntaje();
+        if(sistema.getListaPartidas().size()==0){
+            System.out.println("No hay partidas.");
+            System.out.println("");
+        }
+        else{
+            Scanner in = new Scanner(System.in);
+            int opcion = 0;
+            while (opcion != 3) {
+                System.out.println("\nORDENAR\n");
+                System.out.println("1) Por alias creciente ");
+                System.out.println("2) Por puntaje decreciente");
+                System.out.println("3) Salir");
+                opcion = pedirNum(1,3);
+                if (opcion == 1) {
+                    sistema.ordenarPorAlias();
                     mostrarPartidas(sistema);
+                } else {
+                    if (opcion == 2) {
+                        sistema.ordenarPorPuntaje();
+                        mostrarPartidas(sistema);
+                    }
                 }
-            }
 
+            }
         }
     }
 
     public static void elegirJugador(Sistema sistema) {
         mostrarJugadores(sistema);
-        Scanner in = new Scanner(System.in);
-        System.out.println("Ingrese el numero de jugador");
-        int respuesta=in.nextInt();
-        while (respuesta>sistema.getListaJugadores().size() && respuesta>=0) {
-            mostrarJugadores(sistema);
-            System.out.println("Ingrese un numero de jugador valido");
-            respuesta = in.nextInt();
-        }
-        Jugador jugador = sistema.getListaJugadores().get(respuesta-1);
+        System.out.println("Ingrese el número de jugador");
+        int respuesta = pedirNum(1,sistema.getListaJugadores().size());
+        Jugador jugador = sistema.getListaJugadores().get(respuesta - 1);
         sistema.setearJugador(jugador);
     }
 
@@ -313,7 +313,7 @@ public class Main {
     public static void mostrarJugadores(Sistema sistema) {
         System.out.println("\nLista de Jugadores");
         for (int i = 0; i < sistema.getListaJugadores().size(); i++) {
-            System.out.println((i+1)+") "+sistema.getListaJugadores().get(i));
+            System.out.println((i + 1) + ") " + sistema.getListaJugadores().get(i));
         }
         System.out.println("");
     }
@@ -338,5 +338,78 @@ public class Main {
             }
             System.out.println("");
         }
+    }
+
+    public static int pedirNum(int min, int max) {
+        int dato=0;
+        Scanner in=new Scanner(System.in);
+        boolean ok=false;
+        while (!ok) {
+            try {
+                dato = in.nextInt();
+                in.nextLine();
+                if (dato < min || dato > max) {
+                    System.out.println("Valor fuera de rango ("
+                            + min + "-" + max + ")");
+                } else {
+                    ok = true;
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Ingrese solo números");
+                in.nextLine();
+            }
+        }
+        return dato;
+    }
+    
+    public static String pedirString(String valido){
+        Scanner in=new Scanner(System.in);
+        boolean ok=false;
+        String dato="";
+        String aux="";
+        for (int i = 0; i < valido.length(); i++) {
+            aux+=valido.charAt(i)+" ";
+        }
+        while (!ok) {
+                dato = in.nextLine();
+                if(valido.contains(dato.toUpperCase()) && dato.length()==1){
+                    ok=true;
+                } 
+                else {
+                    System.out.println("Ingrese un valor valido: "+aux);
+                }
+        }
+        return dato.toUpperCase();
+    }
+    
+    public static String pedirRectangulo(){
+        String resp="";
+        Scanner in=new Scanner(System.in);
+        boolean ok=false;
+        boolean sonNums=true;
+        String posTablero="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20";
+        while(!ok){
+            resp=in.nextLine();
+            sonNums=true;
+            if(resp.toUpperCase().equals("X")){
+                ok=true;
+            }
+            else{
+                String array[]=resp.split(" ");
+                for (int i = 0; i < array.length && sonNums; i++) {
+                    if(!posTablero.contains(array[i]) || array[i].length()>2){
+                        sonNums=false;
+                    }
+                }
+                if(array.length==4 && sonNums){
+                    ok=true;
+                }
+                if(!ok){
+                    System.out.println("Ingrese un valor valido. Formato 'y x dy dx' o 'X' para salir");
+                }
+            }
+        }
+        
+        return resp;
     }
 }
