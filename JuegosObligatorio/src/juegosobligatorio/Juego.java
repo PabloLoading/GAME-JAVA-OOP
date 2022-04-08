@@ -1,6 +1,0 @@
-
-package juegosobligatorio;
-
-class Juego {
-    
-}
